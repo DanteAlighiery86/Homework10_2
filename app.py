@@ -1,7 +1,7 @@
 import json
 from flask import Flask
 
-app = Flask(__name__)   # Точка входа в наш файл app-имя файла
+app = Flask(__name__)   # Точка входа в наш файл (app-имя файла)
 
 
 @app.route("/")  # Маршрут к странице. В скобках прописываем адрес страницы
@@ -38,15 +38,18 @@ def find_skill(skills_person):   # Функция фильтрования по 
     skills_person.lower()        # Функция lower переводит вводимые в строке данные в нижний регистр
     with open('candidates.json', encoding='utf8') as f:
         candidates = json.load(f)
+
         candidates_skills = []
         for candidate in candidates:
-            if skills_person in candidate['skills'].lower():  # Переводит все значения ключа skills в нижний регистр
+            temp = candidate['skills'].lower().split()
+            if skills_person in temp:
                 candidates_skills.append(
                     page(candidate)
                 )
     t = '\n'
-
+    # Переводит все значения ключа skills в нижний регистр
     return f'<!DOCTYPE html> <html land="ru"><head><meta charset="UTF-8"/></head><body><pre>{t.join(candidates_skills)}</pre></body></html>'
+
 
 def page(candidate):
     return f"Имя кандидата - {candidate['name']}\nПозиция кандидата - {candidate['position']}\nНавыки - {candidate['skills']}\n"  # Формируем строку
